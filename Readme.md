@@ -10,8 +10,9 @@
 
 ## Part I: Course Overview
 - Standard Path
-- [Vision & Scope](./design-docs/Vision.md)
-- [Competencies & Assessment](./design-docs/Competency-And-Assessment.md)
+- [Vision](./design-docs/Vision.md)
+- [Scope](./design-docs/Scope.md)
+- [Competencies and Assessment](./design-docs/Competencies-And-Assessment.md)
 - [Certifications, Frameworks, and Taxonomies](./design-docs/Certifications-Frameworks-Taxonomies.md)
 - [Learning Approach/Design Patterns](./design-docs/Design-Patterns.md)
 - [Learning Resources](./Learning-Resources)
