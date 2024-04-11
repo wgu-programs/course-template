@@ -9,7 +9,7 @@
 - **Educational Product Designer**: First Last (first.last@wgu.edu)
 
 ## Part I: Course Overview
-- Standard Path
+- [Standard Path](./design-docs/Standard-Path.md)
 - [Vision](./design-docs/Vision.md)
 - [Scope](./design-docs/Scope.md)
 - [Competencies and Assessment](./design-docs/Competencies-And-Assessment.md)
