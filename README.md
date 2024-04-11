@@ -26,6 +26,22 @@ TBD-course-description
 - Step 1: Course Development Preparation
 - Step 2: Course Build Documentation
 
+
+<footer>
+
+<!--
+  <<< Author notes: Footer >>>
+  Add a link to get support, GitHub status page, code of conduct, license link.
+-->
+
+---
+
+Get help: [TBD-support](TBD-support-link) &bull; [Review the GitHub status page](https://www.githubstatus.com/)
+
+&copy; 2023 Western Governors University &bull; [Code of Conduct](https://www.contributor-covenant.org/version/2/1/code_of_conduct/code_of_conduct.md) &bull; [MIT License](https://gh.io/mit)
+
+</footer>
+
 <!--stackedit_data:
-eyJoaXN0b3J5IjpbLTE5MTQ3NzE5OTddfQ==
+eyJoaXN0b3J5IjpbLTI0ODcyMzY2NywtMTkxNDc3MTk5N119
 -->
