@@ -1,5 +1,5 @@
-# Course Name
-[Course Description]
+# TBD-course-name
+TBD-course-description
 
 ## Collaborators
 - **Senior Learning Experience Designer**: First Last (first.last@wgu.edu)
