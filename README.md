@@ -1,1 +1,1 @@
-# course-template
+# Course Name
