@@ -15,8 +15,8 @@
 - [Competencies](./design-docs/Competencies.md)
 - [Assessment](./design-docs/Assessment.md)
 - [Certifications, Frameworks, and Taxonomies](./design-docs/Certifications-Frameworks-Taxonomies.md)
-- [Learning Approach/Design Patterns](./design-docs/Design-Patterns.md)
-- [Learning Resources](./Learning-Resources)
+- [Design Patterns](./design-docs/Design-Patterns.md)
+- [Learning Resources](./design-docs/Learning-Resources.md)
 
 ## Part II: Course Sections
 - Section 1: Title (Assessment Notes)
