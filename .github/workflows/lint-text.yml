@@ -1,0 +1,18 @@
+name: Apply TextLint Rules
+
+on:
+  push:
+    branches:
+      - main  # You can specify more branches or remove the branches line to run on every push to any branch
+  workflow_dispatch:
+    inputs:
+      rules:
+        description: 'JSON array of textlint rule packages'
+        required: true
+        default: '["textlint-rule-no-todo", "textlint-rule-alex"]'
+
+jobs:
+  call-textlint:
+    uses: wgu-programs/.github/workflows/lint-text.yml@main
+    with:
+      rules: ${{ toJson(github.event.inputs.rules) || '["textlint-rule-no-todo", "textlint-rule-alex"]' }}
