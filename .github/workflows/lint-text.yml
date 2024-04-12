@@ -3,7 +3,7 @@ name: Apply TextLint Rules
 on:
   push:
     branches:
-      - main  # You can specify more branches or remove the branches line to run on every push to any branch
+      - main  # Adjust as necessary for your use case
   workflow_dispatch:
     inputs:
       rules:
