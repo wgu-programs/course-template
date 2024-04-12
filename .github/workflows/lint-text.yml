@@ -15,4 +15,4 @@ jobs:
   call-textlint:
     uses: wgu-programs/workflows/.github/workflows/lint-text.yml@main
     with:
-      rules: ${{ toJson(github.event.inputs.rules) || '["textlint-rule-no-todo", "textlint-rule-alex"]' }}
+      rules: ${{ toJson(github.event.inputs.rules)
