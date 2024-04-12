@@ -13,6 +13,6 @@ on:
 
 jobs:
   call-textlint:
-    uses: wgu-programs/.github/workflows/lint-text.yml@main
+    uses: wgu-programs/workflows/.github/workflows/lint-text.yml@main
     with:
       rules: ${{ toJson(github.event.inputs.rules) || '["textlint-rule-no-todo", "textlint-rule-alex"]' }}
