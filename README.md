@@ -26,6 +26,15 @@ TBD-course-description
 - Step 1: Course Development Preparation
 - Step 2: Course Build Documentation
 
+- [ ] Mercury
+- [x] Venus
+- [x] Earth (Orbit/Moon)
+- [x] Mars
+- [ ] Jupiter
+- [ ] Saturn
+- [ ] Uranus
+- [ ] Neptune
+- [ ] Comet Haley
 
 <footer>
 
