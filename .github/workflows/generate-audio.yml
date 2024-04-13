@@ -36,5 +36,5 @@ jobs:
         uses: wgu-programs/workflows/.github/workflows/convert-md-to-mp3.yml@main
         with:
           apiKey: ${{ secrets.ELEVENLABS_API_KEY }}
-          voice: 'en-US-Wavenet-F'
+          voice: 'UEKYgullGqaF0keqT8Bu'
           filePath: ${{ matrix.filePath }}
