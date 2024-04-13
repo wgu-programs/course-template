@@ -2,6 +2,8 @@ name: "Process Changed Markdown Files"
 
 on:
   push:
+    branches:
+      - main  # Ensure this is the branch you want to monitor
     paths:
       - 'content/**/*.md'
   pull_request:
@@ -12,29 +14,24 @@ jobs:
   find-markdown-files:
     runs-on: ubuntu-latest
     outputs:
-      matrix: ${{ steps.set-matrix.outputs.matrix }}
-    
+      files: ${{ steps.filter-files.outputs.markdown-files }}
     steps:
-      - uses: actions/checkout@v4
-
-      - id: set-matrix
+      - uses: actions/checkout@v3
+      - id: filter-files
         run: |
-          echo "::set-output name=matrix::$(git diff --name-only ${{ github.event.before }} ${{ github.event.after }} | grep '\.md$' | jq -R -s -c 'split("\n")[:-1] | map({filePath: .})')"
-        shell: bash
+          echo "::set-output name=markdown-files::$(git diff --name-only ${{ github.event.before }} ${{ github.event.after }} | grep '\.md$' | jq -R -s -c 'split("\n")[:-1]')"
 
   convert-markdown:
     needs: find-markdown-files
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
-      matrix: ${{ fromJson(needs.find-markdown-files.outputs.matrix) }}
-    
+      matrix:
+        file: ${{ fromJson(needs.find-markdown-files.outputs.files) }}
     steps:
-      - uses: actions/checkout@v4
-
-      - name: Use Reusable MD to MP3 Converter
-        uses: wgu-programs/workflows/.github/workflows/convert-md-to-mp3.yml@main
+      - uses: actions/checkout@v3
+      - uses: wgu-programs/workflows/.github/workflows/convert-md-to-mp3.yml@main
         with:
           apiKey: ${{ secrets.ELEVENLABS_API_KEY }}
-          voice: 'UEKYgullGqaF0keqT8Bu'
-          filePath: ${{ matrix.filePath }}
+          voice: 'en-US-Wavenet-F'
+          filePath: ${{ matrix.file }}
