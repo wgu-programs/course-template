@@ -1,0 +1,14 @@
+name: "Use Reusable MD to MP3 Converter"
+
+on:
+  push:
+    paths:
+      - 'content/**/*.md'
+
+jobs:
+  convert-markdown:
+    uses: your-username/github-actions-repo/.github/workflows/convert-md-to-mp3.yml@main
+    with:
+      apiKey: ${{ secrets.ELEVENLABS_API_KEY }}
+      voice: 'en-US-Wavenet-F'
+      filePath: 'path/to/your/markdown.md'
