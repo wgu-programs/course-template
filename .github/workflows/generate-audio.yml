@@ -1,14 +1,40 @@
-name: "Use Reusable MD to MP3 Converter"
+name: "Process Changed Markdown Files"
 
 on:
   push:
     paths:
       - 'content/**/*.md'
+  pull_request:
+    paths:
+      - 'content/**/*.md'
 
 jobs:
+  find-markdown-files:
+    runs-on: ubuntu-latest
+    outputs:
+      matrix: ${{ steps.set-matrix.outputs.matrix }}
+    
+    steps:
+      - uses: actions/checkout@v3
+
+      - id: set-matrix
+        run: |
+          echo "::set-output name=matrix::$(git diff --name-only ${{ github.event.before }} ${{ github.event.after }} | grep '\.md$' | jq -R -s -c 'split("\n")[:-1] | map({filePath: .})')"
+        shell: bash
+
   convert-markdown:
-    uses: wgu-programs/workflows/.github/workflows/convert-md-to-mp3.yml@main
-    with:
-      apiKey: ${{ secrets.ELEVENLABS_API_KEY }}
-      voice: 'en-US-Wavenet-F'
-      filePath: 'path/to/your/markdown.md'
+    needs: find-markdown-files
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix: ${{ fromJson(needs.find-markdown-files.outputs.matrix) }}
+    
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Use Reusable MD to MP3 Converter
+        uses: wgu-programs/workflows/.github/workflows/convert-md-to-mp3.yml@main
+        with:
+          apiKey: ${{ secrets.ELEVENLABS_API_KEY }}
+          voice: 'en-US-Wavenet-F'
+          filePath: ${{ matrix.filePath }}
