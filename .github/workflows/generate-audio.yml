@@ -7,7 +7,7 @@ on:
 
 jobs:
   convert-markdown:
-    uses: your-username/github-actions-repo/.github/workflows/convert-md-to-mp3.yml@main
+    uses: wgu-programs/workflows/.github/workflows/convert-md-to-mp3.yml@main
     with:
       apiKey: ${{ secrets.ELEVENLABS_API_KEY }}
       voice: 'en-US-Wavenet-F'
