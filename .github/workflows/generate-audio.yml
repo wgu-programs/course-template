@@ -16,7 +16,7 @@ jobs:
     outputs:
       files: ${{ steps.filter-files.outputs.markdown-files }}
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - id: filter-files
         run: |
           echo "::set-output name=markdown-files::$(git diff --name-only ${{ github.event.before }} ${{ github.event.after }} | grep '\.md$' | jq -R -s -c 'split("\n")[:-1]')"
@@ -29,7 +29,7 @@ jobs:
       matrix:
         file: ${{ fromJson(needs.find-markdown-files.outputs.files) }}
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - uses: wgu-programs/workflows/.github/workflows/convert-md-to-mp3.yml@main
         with:
           apiKey: ${{ secrets.ELEVENLABS_API_KEY }}
