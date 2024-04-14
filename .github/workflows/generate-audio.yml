@@ -26,8 +26,4 @@ jobs:
     with:
       apiKey: ${{ secrets.ELEVENLABS_API_KEY }}
       voice: 'en-US-Wavenet-F'
-    strategy:
-      fail-fast: false
-    matrix:
-      include:
-        - filePath: ${{ fromJson(needs.prepare.outputs.matrix).filePath }}
+      filePath: ${{ fromJson(needs.prepare.outputs.matrix)[0].filePath }}
