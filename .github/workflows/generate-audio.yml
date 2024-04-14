@@ -12,23 +12,32 @@ jobs:
   process-markdown:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
-      
-      - name: Process each Markdown file
+      - name: Checkout repository
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 0 # This fetches all history for all branches and tags
+
+      - name: Find Markdown files changed
+        id: files
         run: |
-          files_changed=$(git diff --name-only ${{ github.event.before }} ${{ github.event.after }} | grep '\.md$')
-          for file in $files_changed; do
+          echo "FILES_CHANGED=$(git diff --name-only ${{ github.event.before }} ${{ github.event.after }} | grep 'content/.*\.md$')" >> $GITHUB_ENV
+        shell: bash
+
+      - name: Process each Markdown file
+        if: ${{ env.FILES_CHANGED != '' }}
+        run: |
+          for file in $FILES_CHANGED; do
             if [ -f "$file" ]; then
               echo "Processing $file"
               # Call your processing script or action here
-              # Example: Use a reusable workflow or an external action to process each file
-              # Example of calling a reusable workflow directly here:
-              #   - uses: wgu-programs/workflows/.github/workflows/convert-md-to-mp3.yml@main
-                   with:
-                     apiKey: ${{ secrets.ELEVENLABS_API_KEY }}
-                     voice: 'en-US-Wavenet-F'
-                     filePath: $file
-              # Note: Adjust above lines to use the actual reusable workflow or script call
+              # Add the steps that you would normally use to process the Markdown file
+              # For example:
+              # - name: Convert Markdown to MP3
+              #   uses: some-action/convert@v1
+              #   with:
+              #     filePath: $file
+              #     apiKey: ${{ secrets.ELEVENLABS_API_KEY }}
+              #     voice: 'en-US-Wavenet-F'
             fi
           done
         shell: bash
