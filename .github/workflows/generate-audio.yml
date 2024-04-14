@@ -9,21 +9,26 @@ on:
       - 'content/**/*.md'
 
 jobs:
-  prepare:
+  process-markdown:
     runs-on: ubuntu-latest
-    outputs:
-      matrix: ${{ steps.set-matrix.outputs.matrix }}
     steps:
       - uses: actions/checkout@v2
-      - id: set-matrix
+      
+      - name: Process each Markdown file
         run: |
-          echo "::set-output name=matrix::$(git diff --name-only ${{ github.event.before }} ${{ github.event.after }} | grep '\.md$' | jq -R -s -c 'split("\n")[:-1] | map({filePath: .})')"
+          files_changed=$(git diff --name-only ${{ github.event.before }} ${{ github.event.after }} | grep '\.md$')
+          for file in $files_changed; do
+            if [ -f "$file" ]; then
+              echo "Processing $file"
+              # Call your processing script or action here
+              # Example: Use a reusable workflow or an external action to process each file
+              # Example of calling a reusable workflow directly here:
+              #   - uses: wgu-programs/workflows/.github/workflows/convert-md-to-mp3.yml@main
+                   with:
+                     apiKey: ${{ secrets.ELEVENLABS_API_KEY }}
+                     voice: 'en-US-Wavenet-F'
+                     filePath: $file
+              # Note: Adjust above lines to use the actual reusable workflow or script call
+            fi
+          done
         shell: bash
-
-  convert:
-    needs: prepare
-    uses: wgu-programs/workflows/.github/workflows/convert-md-to-mp3.yml@main
-    with:
-      apiKey: ${{ secrets.ELEVENLABS_API_KEY }}
-      voice: 'en-US-Wavenet-F'
-      filePath: ${{ fromJson(needs.prepare.outputs.matrix)[0].filePath }}
