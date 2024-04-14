@@ -1,4 +1,4 @@
-name: "Process Changed Markdown Files"
+name: "Generate Audio"
 
 on:
   push:
@@ -26,8 +26,10 @@ jobs:
     strategy:
       fail-fast: false
       matrix: ${{fromJson(needs.prepare.outputs.matrix)}}
-    uses: wgu-programs/workflows/.github/workflows/convert-md-to-mp3.yml@main
-    with:
-      apiKey: ${{ secrets.ELEVENLABS_API_KEY }}
-      voice: 'en-US-Wavenet-F'
-      filePath: ${{ matrix.filePath }}
+    steps:
+      - uses: actions/checkout@v2  # Re-checkout the code in the new job
+      - uses: wgu-programs/workflows/.github/workflows/convert-md-to-mp3.yml@main
+        with:
+          apiKey: ${{ secrets.ELEVENLABS_API_KEY }}
+          voice: 'en-US-Wavenet-F'
+          filePath: ${{ matrix.filePath }}
