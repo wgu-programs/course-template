@@ -3,7 +3,7 @@ name: Convert All Markdown to MP3
 on:
   push:
     branches:
-      - main  # Specify your branch here if needed
+      - production  # Specify your branch here if needed
     paths:
       - 'content/**/*.md'
   pull_request:
