@@ -1,4 +1,4 @@
-name: "Process Changed Markdown Files"
+name: "Generare Audio"
 
 on:
   push:
@@ -13,7 +13,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
         with:
           fetch-depth: 0 # This fetches all history for all branches and tags
 
@@ -29,15 +29,13 @@ jobs:
           for file in $FILES_CHANGED; do
             if [ -f "$file" ]; then
               echo "Processing $file"
-              # Call your processing script or action here
-              # Add the steps that you would normally use to process the Markdown file
-              # For example:
-              # - name: Convert Markdown to MP3
-              #   uses: some-action/convert@v1
-              #   with:
-              #     filePath: $file
-              #     apiKey: ${{ secrets.ELEVENLABS_API_KEY }}
-              #     voice: 'en-US-Wavenet-F'
+              
+              - name: Convert Markdown to MP3
+                uses: wgu-programs/workflows/convert-md-to-mp3@v1
+                with:
+                  filePath: $file
+                  apiKey: ${{ secrets.ELEVENLABS_API_KEY }}
+                  voice: 'en-US-Wavenet-F'
             fi
           done
         shell: bash
