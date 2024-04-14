@@ -1,33 +1,27 @@
-name: Convert All Markdown to MP3
+name: Generate Audio from Markdown
 
 on:
-  push:
-    branches:
-      - production  # Specify your branch here if needed
-    paths:
-      - 'content/**/*.md'
-  pull_request:
-    paths:
-      - 'content/**/*.md'
+  workflow_call:
+    inputs:
+      files:
+        description: 'List of changed markdown files'
+        required: true
+        type: string
 
 jobs:
-  prepare:
+  generate-audio:
     runs-on: ubuntu-latest
-    outputs:
-      matrix: ${{ steps.set-matrix.outputs.matrix }}
     steps:
-      - uses: actions/checkout@v2
-      - id: set-matrix
-        run: |
-          echo "matrix::$(find content -name '*.md' | jq -R -s -c '[split("\n")[] | select(. != "") | {filePath: .}]')" >> $GITHUB_ENV
+    - name: Checkout Repository
+      uses: actions/checkout@v4
 
-  convert:
-    needs: prepare
-    runs-on: ubuntu-latest
-    strategy:
-      fail-fast: false
-      matrix: ${{fromJson(needs.prepare.outputs.matrix)}}
-    steps:
-      - uses: actions/checkout@v2
-      - name: Convert Markdown to MP3
-        run: curl -X POST "https://example.com/api/convert" --data "filePath=${{ matrix.filePath }}" --header "apiKey: ${{ secrets.API_KEY }}" --header "voice: en-US-Wavenet-F"
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '20'
+
+    - name: Install Dependencies
+      run: npm install
+
+    - name: Run Generate Audio Script
+      run: node tts/generate-audio.js ${{ inputs.files }}
