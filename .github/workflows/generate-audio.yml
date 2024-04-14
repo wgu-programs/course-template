@@ -1,4 +1,4 @@
-name: "Generare Audio"
+name: "Generate Audio"
 
 on:
   push:
@@ -31,7 +31,7 @@ jobs:
               echo "Processing $file"
               
               - name: Convert Markdown to MP3
-                uses: wgu-programs/workflows/convert-md-to-mp3@v1
+                uses: wgu-programs/workflows/.github/workflows/convert-md-to-mp3.yml@main
                 with:
                   filePath: $file
                   apiKey: ${{ secrets.ELEVENLABS_API_KEY }}
