@@ -2,6 +2,8 @@ name: Convert All Markdown to MP3
 
 on:
   push:
+    branches:
+      - main  # Specify your branch here if needed
     paths:
       - 'content/**/*.md'
   pull_request:
@@ -9,20 +11,25 @@ on:
       - 'content/**/*.md'
 
 jobs:
-  convert:
+  prepare:
     runs-on: ubuntu-latest
-    
+    outputs:
+      matrix: ${{ steps.set-matrix.outputs.matrix }}
     steps:
-      - uses: actions/checkout@v2
-      
-      - name: Find Markdown Files
-        id: find-md
+      - uses: actions/checkout@v4
+      - id: set-matrix
         run: |
-          echo "markdown_files=$(find content -name '*.md')" >> $GITHUB_ENV
-      
-      - name: Convert Markdown Files to MP3
-        uses: wgu-programs/workflows/.github/workflows/convert-md-to-mp3.yml@main
-        with:
-          filePath: ${{ env.markdown_files }}
-          apiKey: ${{ secrets.API_KEY }}
-          voice: 'en-US-Wavenet-F'
+          JSON_ARRAY=$(find content -name '*.md' | jq -R -s -c '[inputs | {filePath: .}]')
+          echo "::set-output name=matrix::$JSON_ARRAY"
+
+  convert:
+    needs: prepare
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix: ${{fromJson(needs.prepare.outputs.matrix)}}
+    uses: wgu-programs/workflows/.github/workflows/convert-md-to-mp3.yml@main
+    with:
+      filePath: ${{ matrix.filePath }}
+      apiKey: ${{ secrets.API_KEY }}
+      voice: 'en-US-Wavenet-F'
